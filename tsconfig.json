@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+
+        "outDir": "dist",
+        "rootDir": ".",
+        "target": "es2024",
+        "module": "nodenext"
+
+    },
+
+    "exclude": [
+        "node_modules"
+    ],
+
+    "include": [
+        
+        "**/*.ts"
+        // "**/typescript/*.ts" - war nur ein Test
+
+    ]
+
+}
