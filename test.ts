@@ -8,13 +8,13 @@ async function mensaCounter(url: string, city: string) {
     let myResponse: Response = await fetch(mensaUrl);
     let data = await myResponse.json();
 
-    // Filtert nur die Einträge mit city === "Leipzig"
-    let leipzigMensen = data.filter((mensa: any) => mensa.city === "Leipzig");
+    // Filtert nur die Einträge der angegebenen Stadt
+    let mensenOfCity = data.filter((mensa: any) => mensa.city === city);
 
     // Anzahl der Leipziger Mensen
-    let anzahlCity = leipzigMensen.length;
+    let anzahlCity = mensenOfCity.length;
 
-    console.log(leipzigMensen);
+    console.log(mensenOfCity);
     console.log("Anzahl Mensen in " + city + ": " + anzahlCity);
 }
 
