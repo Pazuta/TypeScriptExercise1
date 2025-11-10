@@ -12,16 +12,23 @@ async function mensaCounter(url: string, city: string) {
     let mensenOfCity = data.filter((mensa: any) => mensa.city === city);
 
     
+
     // Gibt nur die Namen der Mensen aus
+    const names: string[] = [];
+
     mensenOfCity.forEach((mensa: any) => {
-        console.log(mensa.name);
+        names.push(mensa.name);
     });
 
 
     // Anzahl der Leipziger Mensen
     let anzahlCity = mensenOfCity.length;
 
+    console.log(names);
     console.log("Anzahl Mensen in " + city + ": " + anzahlCity);
+
+    // HTML Anzeige
+    
 }
 
 mensaCounter(mensaUrl, city)
