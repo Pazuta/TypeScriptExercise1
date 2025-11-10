@@ -28,6 +28,24 @@ async function mensaCounter(url: string, city: string) {
     console.log("Anzahl Mensen in " + city + ": " + anzahlCity);
 
     // HTML Anzeige
+
+    
+    let container = document.getElementById('container');
+    if (container) {
+
+        let element = document.createElement('div');
+        element.innerText = "Anzahl Mensen in " + city + ": " + anzahlCity;
+        container.appendChild(element);
+        
+        for (let i = 0; i < names.length; i++) {
+            let element = document.createElement('div');
+            element.innerText = names[i];
+            container.appendChild(element);
+        };
+        
+    } else {
+        console.error('Container element with id "container" not found');
+    }
     
 }
 
