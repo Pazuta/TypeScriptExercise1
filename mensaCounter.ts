@@ -1,4 +1,4 @@
-async function openMensaAPI(url: string, city: string): Promise<string[]> {     // call up OpenMensa API
+async function openMensaAPI(mensaUrl: string, city: string): Promise<string[]> {     // call up OpenMensa API
 
     const urlResponse: Response = await fetch(mensaUrl);
     const urlData = await urlResponse.json();
@@ -17,7 +17,7 @@ function createMensaNameArray(filteredUrlData: any): string[] {                 
     return mensaNames;
 }
 
-function countedMensaInCity(filteredUrlData: any, mensaNames: string[]) {       // counts number of cafeteria
+function countedMensaInCity(filteredUrlData: any, mensaNames: string[], city: string) {       // counts number of cafeteria
 
     const countedMensa = filteredUrlData.length;
     console.log("Anzahl Mensen in " + city + ": " + countedMensa);
@@ -25,7 +25,7 @@ function countedMensaInCity(filteredUrlData: any, mensaNames: string[]) {       
 
 }
 
-function buildHTML(countedMensa: any, names: string[]) {                        // build HTML page
+function buildHTML(countedMensa: any, names: string[], city: string) {                        // build HTML page
     
     let container = document.getElementById('container');
     if (container) {
@@ -45,17 +45,17 @@ function buildHTML(countedMensa: any, names: string[]) {                        
     }
 }
 
-async function main() {                                                               // start the process
+async function main() {           
+    
+    const mensaUrl: string = "https://openmensa.org/api/v2/canteens/"
+    const city: string = "Leipzig"// start the process
 
     let filteredMensaData: string[] = [];
     filteredMensaData = await openMensaAPI(mensaUrl, city);
     let mensaNames: string[] = createMensaNameArray(filteredMensaData);
-    var countedMensa = countedMensaInCity(filteredMensaData, mensaNames);
-    buildHTML(countedMensa, mensaNames);
+    var countedMensa = countedMensaInCity(filteredMensaData, mensaNames, city);
+    buildHTML(countedMensa, mensaNames, city);
 
 }
-
-const mensaUrl: string = "https://openmensa.org/api/v2/canteens/"
-const city: string = "Leipzig"
 
 main();
