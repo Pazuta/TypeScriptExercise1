@@ -1,11 +1,31 @@
-async function openMensaAPI(mensaUrl: string, city: string): Promise<string[]> {     // call up OpenMensa API
+async function openMensaAPI(mensaUrl: string): Promise<string[]> {     // call up OpenMensa API
 
     const urlResponse: Response = await fetch(mensaUrl);
     const urlData = await urlResponse.json();
+    return urlData;
+
+}    
+/* erfordert Überarbeitung
+function createMensaCityArray(urlData: string[]) {
+
+    const urlDataSize = urlData.length;
+    let uniqueCitys: string[] = []
+    for (var i = 0; i < urlDataSize; i++) {
+        if (urlData.indexOf(urlData[i]) === i) {
+
+            uniqueCitys.
+
+        };
+    };
+}
+*/
+
+function filterUrlData(urlData: string[], city: string) {
+
     const filteredUrlData: string[] = urlData.filter((mensa: any) => mensa.city === city);
     return filteredUrlData;
 
-}    
+}
 
 function createMensaNameArray(filteredUrlData: any): string[] {                 // put mensaNames from filteredUrlData into Array
     
@@ -50,8 +70,12 @@ async function main() {
     const mensaUrl: string = "https://openmensa.org/api/v2/canteens/"
     const city: string = "Leipzig"// start the process
 
+
+    let mensaData: string[] = [];
+    mensaData = await openMensaAPI(mensaUrl)
     let filteredMensaData: string[] = [];
-    filteredMensaData = await openMensaAPI(mensaUrl, city);
+    filteredMensaData = filterUrlData(mensaData, city);
+    
     let mensaNames: string[] = createMensaNameArray(filteredMensaData);
     var countedMensa = countedMensaInCity(filteredMensaData, mensaNames, city);
     buildHTML(countedMensa, mensaNames, city);
