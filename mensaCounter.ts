@@ -1,39 +1,31 @@
-// Mensa URL: https://openmensa.org/api/v2/canteens/
+async function openMensaAPI(url: string, city: string): Promise<string[]> {     // call up OpenMensa API
 
-const mensaUrl: string = "https://openmensa.org/api/v2/canteens/" // "https://bored-api.appbrewery.com/random"
-const city: string = "Leipzig"
-
-async function openMensaAPI(url: string, city: string): Promise<string[]> {            // ruft OpenMensaAPI auf
-
-    const myResponse: Response = await fetch(mensaUrl);
-    const data = await myResponse.json();
-    // Filtert nur die Einträge der angegebenen Stadt
-    const mensenInCity: string[] = data.filter((mensa: any) => mensa.city === city);
-    // console.log(await mensenInCity)                     // Array wird in der Konsole ausgegeben
-    return mensenInCity;                            // bei "console.log(await openMensaAPI(mensaUrl, city))"  wird Promise zurückgegeben
+    const urlResponse: Response = await fetch(mensaUrl);
+    const urlData = await urlResponse.json();
+    const filteredUrlData: string[] = urlData.filter((mensa: any) => mensa.city === city);
+    return filteredUrlData;
 
 }    
 
-function createMensaNameArray(mensenInCity: any): string[] {                  // speichert Namen der Mensen in einem Array
+function createMensaNameArray(filteredUrlData: any): string[] {                 // put mensaNames from filteredUrlData into Array
     
-    let names: string[] = [];
-    console.log(mensenInCity);
-    mensenInCity.forEach((mensa: any) => {
-        names.push(mensa.name);
+    const mensaNames: string[] = [];
+    filteredUrlData.forEach((mensa: any) => {
+        mensaNames.push(mensa.name);
     });
-    return names;
+    console.log(mensaNames);
+    return mensaNames;
 }
 
-function countedMensaInCity(mensenInCity: any, names: string[]) {   // zählt Mensen in der Stadt
+function countedMensaInCity(filteredUrlData: any, mensaNames: string[]) {       // counts number of cafeteria
 
-    let countedMensa = mensenInCity.length;
-    console.log(names);
+    const countedMensa = filteredUrlData.length;
     console.log("Anzahl Mensen in " + city + ": " + countedMensa);
     return countedMensa;
 
 }
 
-function buildHTML(countedMensa: any, names: string[]) {              // baut HTML Seite auf
+function buildHTML(countedMensa: any, names: string[]) {                        // build HTML page
     
     let container = document.getElementById('container');
     if (container) {
@@ -53,7 +45,7 @@ function buildHTML(countedMensa: any, names: string[]) {              // baut HT
     }
 }
 
-function main() {
+function main() {                                                               // start the process
 
     let mensenData: string[] = [];
     openMensaAPI(mensaUrl, city).then(mensenInCity => {
@@ -65,14 +57,7 @@ function main() {
 
 }
 
+const mensaUrl: string = "https://openmensa.org/api/v2/canteens/"
+const city: string = "Leipzig"
+
 main();
-
-
-/*
-openMensaAPI(mensaUrl, city).then(mensenInCity => {
-    console.log(mensenInCity)
-});
-
- main();
-
-*/
