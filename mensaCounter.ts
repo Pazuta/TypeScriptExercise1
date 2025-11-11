@@ -47,12 +47,12 @@ function buildHTML(countedMensa: any, names: string[]) {                        
 
 function main() {                                                               // start the process
 
-    let mensenData: string[] = [];
-    openMensaAPI(mensaUrl, city).then(mensenInCity => {
-        mensenData = mensenInCity;
-        let names: string[] = createMensaNameArray(mensenData);
-        var countedMensa = countedMensaInCity(mensenData, names);
-        buildHTML(countedMensa, names);
+    let filteredMensaData: string[] = [];
+    openMensaAPI(mensaUrl, city).then(filteredUrlData => {
+        filteredMensaData = filteredUrlData;
+        let mensaNames: string[] = createMensaNameArray(filteredMensaData);
+        var countedMensa = countedMensaInCity(filteredMensaData, mensaNames);
+        buildHTML(countedMensa, mensaNames);
     });
 
 }
