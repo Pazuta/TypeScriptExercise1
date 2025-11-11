@@ -45,15 +45,13 @@ function buildHTML(countedMensa: any, names: string[]) {                        
     }
 }
 
-function main() {                                                               // start the process
+async function main() {                                                               // start the process
 
     let filteredMensaData: string[] = [];
-    openMensaAPI(mensaUrl, city).then(filteredUrlData => {
-        filteredMensaData = filteredUrlData;
-        let mensaNames: string[] = createMensaNameArray(filteredMensaData);
-        var countedMensa = countedMensaInCity(filteredMensaData, mensaNames);
-        buildHTML(countedMensa, mensaNames);
-    });
+    filteredMensaData = await openMensaAPI(mensaUrl, city);
+    let mensaNames: string[] = createMensaNameArray(filteredMensaData);
+    var countedMensa = countedMensaInCity(filteredMensaData, mensaNames);
+    buildHTML(countedMensa, mensaNames);
 
 }
 
