@@ -1,8 +1,17 @@
-async function openMensaAPI(mensaUrl: string): Promise<string[]> {     // call up OpenMensa API
+type Canteen = {
+    id: number;
+    name: string,
+    city: string,
+    address: string,
+    coordinates: null | [number, number]
+}
+
+async function openMensaAPI(mensaUrl: string): Promise<Canteen[]> {     // call up OpenMensa API
 
     const urlResponse: Response = await fetch(mensaUrl);
-    const urlData = await urlResponse.json();
-    return urlData;
+    const canteens = await urlResponse.json();
+    console.log(canteens);
+    return canteens;
 
 }    
 /* erfordert Überarbeitung
@@ -20,26 +29,26 @@ function createMensaCityArray(urlData: string[]) {
 }
 */
 
-function filterUrlData(urlData: string[], city: string) {
+function filterUrlData(canteens: Canteen[], city: string) {
 
-    const filteredUrlData: string[] = urlData.filter((mensa: any) => mensa.city === city);
-    return filteredUrlData;
+    const filteredCanteens: Canteen[] = canteens.filter((mensa: any) => mensa.city === city);
+    return filteredCanteens;
 
 }
 
-function createMensaNameArray(filteredUrlData: any): string[] {                 // put mensaNames from filteredUrlData into Array
+function createMensaNameArray(filteredCanteens: any): string[] {                 // put mensaNames from filteredUrlData into Array
     
     const mensaNames: string[] = [];
-    filteredUrlData.forEach((mensa: any) => {
+    filteredCanteens.forEach((mensa: any) => {
         mensaNames.push(mensa.name);
     });
     console.log(mensaNames);
     return mensaNames;
 }
 
-function countedMensaInCity(filteredUrlData: any, mensaNames: string[], city: string) {       // counts number of cafeteria
+function countedMensaInCity(filteredCanteens: any, mensaNames: string[], city: string) {       // counts number of cafeteria
 
-    const countedMensa = filteredUrlData.length;
+    const countedMensa = filteredCanteens.length;
     console.log("Anzahl Mensen in " + city + ": " + countedMensa);
     return countedMensa;
 
@@ -71,14 +80,14 @@ async function main() {
     const city: string = "Leipzig"// start the process
 
 
-    let mensaData: string[] = [];
-    mensaData = await openMensaAPI(mensaUrl)
-    let filteredMensaData: string[] = [];
-    filteredMensaData = filterUrlData(mensaData, city);
+    let canteens: Canteen[] = [];
+    canteens = await openMensaAPI(mensaUrl)
+    let filteredCanteens: Canteen[] = [];
+    filteredCanteens = filterUrlData(canteens, city);
     
-    let mensaNames: string[] = createMensaNameArray(filteredMensaData);
-    var countedMensa = countedMensaInCity(filteredMensaData, mensaNames, city);
-    buildHTML(countedMensa, mensaNames, city);
+    let canteenNames: string[] = createMensaNameArray(filteredCanteens);
+    var countedCanteens = countedMensaInCity(filteredCanteens, canteenNames, city);
+    buildHTML(countedCanteens, canteenNames, city);
 
 }
 
