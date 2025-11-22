@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node dist/mensaCounter.js"
+    "start": "tsc && node dist/mensaCounter.js",
+    "watch": "tsc --watch"
   },
   "keywords": [],
   "author": "",
